@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <meta http-equiv="refresh" content="5"> -->
+  <title>StuckBrain</title>
+  <link href="./class/normalize.css" rel="stylesheet">
+  <link href="./class/grid.css" rel="stylesheet">
+  <link href="./class/styles.css" rel="stylesheet">
+  <link href="./data/main-icons/style.css" rel="stylesheet">
+  <link href="./data/fluent-icons-filled/icons-24.css" rel="stylesheet">
+
+</head>
+<body data-barba="wrapper">
+
+  <!--# ━━━━━━━━━━━━━━━━━━━━━━ Tittle Bar ━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="titleBar">
+    <div id="window-controls">
+      <div class="button min-button" id="minimizeBtn">
+          <img class="controll-icon"
+              srcset="./image/titlebar/min-w-10.png 1x, ./image/titlebar/min-w-12.png 1.25x, ./image/titlebar/min-w-15.png 1.5x, ./image/titlebar/min-w-15.png 1.75x, ./image/titlebar/min-w-20.png 2x, ./image/titlebar/min-w-20.png 2.25x, ./image/titlebar/min-w-24.png 2.5x, ./image/titlebar/min-w-30.png 3x, ./image/titlebar/min-w-30.png 3.5x"
+              draggable="false" />
+      </div>
+      <div class="button max-button" id="maxResBtn">
+          <img class="controll-icon"
+              srcset="./image/titlebar/max-w-10.png 1x, ./image/titlebar/max-w-12.png 1.25x, ./image/titlebar/max-w-15.png 1.5x, ./image/titlebar/max-w-15.png 1.75x, ./image/titlebar/max-w-20.png 2x, ./image/titlebar/max-w-20.png 2.25x, ./image/titlebar/max-w-24.png 2.5x, ./image/titlebar/max-w-30.png 3x, ./image/titlebar/max-w-30.png 3.5x"
+              draggable="false" id="maxRes"/>
+      </div>
+      <div class="button close-button" id="closeBtn">
+          <img class="controll-icon"
+              srcset="./image/titlebar/close-w-10.png 1x, ./image/titlebar/close-w-12.png 1.25x, ./image/titlebar/close-w-15.png 1.5x, ./image/titlebar/close-w-15.png 1.75x, ./image/titlebar/close-w-20.png 2x, ./image/titlebar/close-w-20.png 2.25x, ./image/titlebar/close-w-24.png 2.5x, ./image/titlebar/close-w-30.png 3x, ./image/titlebar/close-w-30.png 3.5x"
+              draggable="false" />
+      </div>
+    </div>
+
+    <div class="grid:12 h-100">
+      <div class="col:3 align-center">
+        <img class="appIcon" src="./image/appIcon.svg">
+        <span class="appName">StuckBrain</span>
+        <span class="releaseTag"></span>
+      </div>
+      <div class="col:6 start:4 align-center" >
+        <div class="align-center mt-1" style="position: relative ; width: 100%;">
+          <div class="textBox"></div>
+          <input class="textarea" type="text" id="myInput" name="search" placeholder="Search">
+          <div class="position-absolute d-flex content-end non-clickable h-100 align-center" style="padding-right: 12px;">
+            <button id="clearText" class="btn-small clickable" style="margin-right: 12px;opacity: 0;" onclick="document.getElementById('search').value = ''">
+              <span class="icon icon-small icon-dismiss"></span>
+            </button>
+            <span class="icon icon-small icon-search"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--# ━━━━━━━━━━━━━━━━━━━━━━ Sidebar Menu ━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="navPane">
+    <div class="content-center h-100">
+      <div class="navItems">
+        <ul class="Tabs wrap:flex wrap:column h-100" role="tablist">
+          <li class="sliding-tab Tab" id="tab-home" role="tab" aria-controls="tab-home"> 
+            <a href="./index.html">
+              <div class="align-center h-100">
+                <div class="align-center wrap:column text-center content-center">
+                  <div class="icon icon-home state-fill"></div>
+                  <div class="icon icon-home-outline state-outline"></div>
+                  <div class="tab-text tab-mode">Home</div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="sliding-tab Tab" id="tab-color" role="tab" aria-controls="tab-color">
+            <a href="./color.html">
+              <div class="align-center h-100">
+                <div class="align-center wrap:column text-center content-center">
+                  <div class="icon icon-color state-fill"></div>
+                  <div class="icon icon-color-outline state-outline"></div>
+                  <div class="tab-text tab-mode">Color</div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="sliding-tab Tab" id="tab-code" role="tab" aria-controls="tab-code">
+            <a href="./code.html">
+              <div class="align-center h-100">
+                <div class="align-center wrap:column text-center content-center">
+                  <div class="icon icon-code state-fill"></div>
+                  <div class="icon icon-code-outline state-outline"></div>
+                  <div class="tab-text tab-mode">Code</div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="sliding-tab Tab active" id="tab-assets" role="tab" aria-controls="tab-assets">
+            <a href="./assets.html">
+              <div class="align-center h-100">
+                <div class="align-center wrap:column text-center content-center">
+                  <div class="icon icon-emoji state-fill"></div>
+                  <div class="icon icon-emoji-outline state-outline"></div>
+                  <div class="tab-text tab-mode">Assets</div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="sliding-tab Tab" id="tab-assets" role="tab" aria-controls="tab-assets">
+            <a href="#">
+              <div class="align-center h-100">
+                <div class="align-center wrap:column text-center content-center">
+                  <div class="icon icon-border state-fill"></div>
+                  <div class="icon icon-border-outline state-outline"></div>
+                  <div class="tab-text tab-mode">Layout</div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="sliding-tab Tab" id="tab-library" role="tab" aria-controls="tab-library">
+            <a href="#">
+              <div class="align-center h-100">
+                <div class="align-center wrap:column text-center content-center">
+                  <div class="icon icon-library state-fill"></div>
+                  <div class="icon icon-library-outline state-outline"></div>
+                  <div class="tab-text tab-mode">Library</div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="sliding-tab Tab mt-auto" id="tab-about" role="tab" aria-controls="tab-about">
+            <a href="./about.html">
+              <div class="align-center h-100">
+                <div class="align-center wrap:column text-center content-center">
+                  <div class="icon icon-info state-fill"></div>
+                  <div class="icon icon-info-outline state-outline"></div>
+                  <div class="tab-text tab-mode">About</div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li class="slider align-center" role="presentation">
+            <div class="slider-thumb"></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!--# ━━━━━━━━━━━━━━━━━━━━━━ Sidebar Menu ━━━━━━━━━━━━━━━━━━━━━━ -->
+  <div class="contentPane">
+    <div class="container">
+
+      <main data-barba="container" data-barba-namespace="fluent-icons">
+        <div class="contentContainer">
+          <h1>Assets</h1>
+          <span class="text-muted">Drag the icon out of the app to copy it to your design app, <b>for example: Figma, Photoshop or Your Folder</b></span>
+
+          
+          <div class="sectionContainer" >
+            <h4>Icon Pack</h4>
+            
+            <ul id="fluent-list" class="grid:12 m-0 p-0 searchable">
+
+            </ul>
+          </div>
+
+
+
+          <div class="sectionContainer">
+            <h4>Mockup</h4>
+            <div class="frameContainer">
+              <div class="content-beetwen">
+                <div class="wrap:flex align-center">
+                  <div class="icon icon-normal icon-heart-outline"></div>
+                  <div class="ms-4">
+                    <span>Support me</span>
+                    <div class="text-muted">Your support can encourage the creators to continue developing this application.</div>
+                  </div>
+                </div>
+                <div>
+                  <button class="btn-accent">Paypal</button>
+                  <button class="btn-accent">Saweria</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+
+
+</body>
+<script>if (typeof module === 'object') {window.module = module; module = undefined;};</script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script>if (window.module) module = window.module;</script>
+
+<script src="./class/barba.js"></script>
+<script src="./class/gsap.min.js"></script>
+<script src="./class/renderer.js"></script>
+
+</html>

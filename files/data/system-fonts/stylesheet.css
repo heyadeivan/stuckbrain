@@ -1,0 +1,120 @@
+@font-face {
+    font-family: 'Segoe UI Variable Static Display';
+    src: url('SegoeUIVariableStatic-1900000-240000.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Display';
+    src: url('SegoeUIVariableStatic-2bc0000-240000.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Display';
+    src: url('SegoeUIVariableStatic-12c0000-240000.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Display';
+    src: url('SegoeUIVariableStatic-2580000-240000.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Display Semilight';
+    src: url('SegoeUIVariableStatic-15e0000-240000.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Small';
+    src: url('SegoeUIVariableStatic-1900000-80000.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Small';
+    src: url('SegoeUIVariableStatic-2bc0000-80000.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Small';
+    src: url('SegoeUIVariableStatic-2580000-80000.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Small';
+    src: url('SegoeUIVariableStatic-12c0000-80000.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Small Semilight';
+    src: url('SegoeUIVariableStatic-15e0000-80000.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Text';
+    src: url('SegoeUIVariableStatic-1900000-a8000.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Text';
+    src: url('SegoeUIVariableStatic-2bc0000-a8000.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Text';
+    src: url('SegoeUIVariableStatic-12c0000-a8000.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Text';
+    src: url('SegoeUIVariableStatic-2580000-a8000.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Segoe UI Variable Static Text Semilight';
+    src: url('SegoeUIVariableStatic-15e0000-a8000.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
