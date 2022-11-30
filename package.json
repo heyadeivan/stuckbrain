@@ -1,0 +1,15 @@
+{
+  "name": "depressed-front-administer-vlvf3",
+  "productName": "depressed-front-administer-vlvf3",
+  "description": "My Electron application description",
+  "keywords": [],
+  "main": "./main.js",
+  "version": "1.0.0",
+  "author": "heyad",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^21.2.2"
+  }
+}
