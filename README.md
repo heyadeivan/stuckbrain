@@ -1,4 +1,8 @@
+# StuckBrain
+
 ![Thumb](https://github.com/adeivan/stuckbrain/blob/main/mica.png)
+
+---
 
 Untuk menginstall
 `npm i`
@@ -9,6 +13,8 @@ Untuk menginstall
 
 Untuk menjalankan
 `npm start`
+
+---
 
 <h4>Fix link agar terbuka di browser luar bukan di electron-nya :</h4> 
 (1) https://www.electronjs.org/docs/latest/api/shell
