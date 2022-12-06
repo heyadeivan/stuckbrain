@@ -11,6 +11,10 @@ Untuk menginstall
 
 - Cek folder build, jika kosong copy kembali dari folder buildnya
 
+- Untuk Windows 10 Ganti file main.js nya
+
+- Untuk Windows 10 Ganti `body > background` di folder `files/class/style.css` menjadi var `background: var(--background-color);`
+
 Untuk menjalankan
 `npm start`
 
