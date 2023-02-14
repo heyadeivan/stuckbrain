@@ -1,4 +1,4 @@
-# StuckBrain
+# StuckBrain - ElectronJS with Windows 11 Style
 
 ![Thumb](https://github.com/adeivan/stuckbrain/blob/main/mica.png)
 
