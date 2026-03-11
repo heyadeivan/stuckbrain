@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HRIS Tool by Ade Ivan
 // @namespace    http://tampermonkey.net/
-// @version      4.9
+// @version      5.0
 // @match        *://hris.bakmigm.co.id/*
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/heyadeivan/stuckbrain/main/script3.user.js
@@ -262,7 +262,7 @@ function colorTimeInput(input) {
     document.head.insertAdjacentHTML('beforeend', `<style>${CSS}</style>`);
     const panel = document.createElement('div');
     panel.id = '_op';
-    panel.innerHTML = `<div class="_hd">HRIS Tool by Ade Ivan</div>`;
+    panel.innerHTML = `<div class="_hd">HRIS Tools by Ade Ivan</div>`;
 
     ITEMS.forEach(item => {
       const row = document.createElement('div');
