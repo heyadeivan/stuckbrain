@@ -1,3 +1,13 @@
+// ==UserScript==
+// @name         HRIS Tool by Ade Ivan
+// @namespace    http://tampermonkey.net/
+// @version      4.9
+// @match        *://hris.bakmigm.co.id/*
+// @grant        none
+// @updateURL    https://raw.githubusercontent.com/heyadeivan/stuckbrain/main/script.user.js
+// @downloadURL  https://raw.githubusercontent.com/heyadeivan/stuckbrain/main/script.user.js
+// ==/UserScript==
+
 (function () {
   'use strict';
 
