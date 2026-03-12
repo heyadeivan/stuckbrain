@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HRIS Tool by Ade Ivan
 // @namespace    http://tampermonkey.net/
-// @version      5.0
+// @version      6.0
 // @match        *://hris.bakmigm.co.id/*
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/heyadeivan/stuckbrain/main/script3.user.js
@@ -39,7 +39,7 @@
     }
   }
 
-  // ── Hide ALL rows where SelStatus_XX = "OFF" (kept in DOM for Revisi) ────
+  // ── Hide ALL rows where SelStatus_XX = "OFF" ────────────────────────────
   function hideOffRows() {
     document.querySelectorAll('input[name^="SelStatus_"]').forEach(input => {
       if (input.value === 'OFF') {
@@ -49,7 +49,6 @@
     });
   }
 
-  // ── Poll until no visible SelStatus_XX with value="OFF" remains ──────────
   function startOffCleaner() {
     const waitForInputs = setInterval(() => {
       if (!document.querySelector('input[name^="SelStatus_"]')) return;
@@ -72,30 +71,29 @@
     return h * 60 + m;
   }
 
-function colorTimeInput(input) {
-  const name = input.name || '';
-  if (!name.startsWith('txt_Start_') && !name.startsWith('txt_End_')) return;
+  function colorTimeInput(input) {
+    const name = input.name || '';
+    if (!name.startsWith('txt_Start_') && !name.startsWith('txt_End_')) return;
 
-  // Empty value → red
-  if (!input.value.trim()) {
-    input.style.backgroundColor = '#F4A8A8';
+    if (!input.value.trim()) {
+      input.style.backgroundColor = '#F4A8A8';
+      input.style.color = '#111';
+      return;
+    }
+
+    const mins = timeToMinutes(input.value);
+    if (mins === null) return;
+
+    let green = false;
+    if (name.startsWith('txt_Start_')) {
+      green = mins <= 8 * 60 + 30;
+    } else if (name.startsWith('txt_End_')) {
+      green = mins >= 17 * 60 + 30;
+    }
+
+    input.style.backgroundColor = green ? '#A8F0C6' : '#F4A8A8';
     input.style.color = '#111';
-    return;
   }
-
-  const mins = timeToMinutes(input.value);
-  if (mins === null) return;
-
-  let green = false;
-  if (name.startsWith('txt_Start_')) {
-    green = mins <= 8 * 60 + 30;
-  } else if (name.startsWith('txt_End_')) {
-    green = mins >= 17 * 60 + 30;
-  }
-
-  input.style.backgroundColor = green ? '#A8F0C6' : '#F4A8A8';
-  input.style.color = '#111';
-}
 
   function colorAllTimeInputs() {
     document.querySelectorAll('input[name^="txt_Start_"], input[name^="txt_End_"]')
@@ -132,17 +130,15 @@ function colorTimeInput(input) {
     watchTimeInputs();
   }
 
-  // ── Panel ────────────────────────────────────────────────────────────────
+  // ── Items ────────────────────────────────────────────────────────────────
   const ITEMS = [
     {
       label: 'Koreksi Absen',
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#2DB870" stroke-width="2"/><path d="M7 12l3.5 3.5L17 8" stroke="#2DB870" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M7 12l3.5 3.5L17 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+      color: '#2DB870',
       expand: true,
-      tidakSesuai: 2,
-      sesuai: 2,
       action: () => typeof scutlink === 'function' && scutlink('index.cfm?FID=HR8713&FUID=HR87130002&menu=1&selRequestBy=0'),
       revisiAction: () => {
-
         const doc = window.frames.ifrmSunFishBody
           ? window.frames.ifrmSunFishBody.document
           : document;
@@ -150,14 +146,11 @@ function colorTimeInput(input) {
         const startInputs = doc.querySelectorAll('input[name^="txt_Start_"]');
 
         startInputs.forEach(startInput => {
-
           const num = startInput.name.replace('txt_Start_', '');
 
-          // ── Skip OFF rows ───────────────────────────────────────────────
           const selStatus = doc.querySelector(`input[name="SelStatus_${num}"]`);
           if (selStatus && selStatus.value === 'OFF') return;
 
-          // ── Skip L1 rows ────────────────────────────────────────────────
           const statSelect = doc.querySelector(`select[name="selStatCode_${num}"]`);
           if (statSelect && statSelect.value === 'L1') return;
 
@@ -174,7 +167,6 @@ function colorTimeInput(input) {
 
           if (!startRed && !endRed) return;
 
-          // ── Apply time fixes ────────────────────────────────────────────
           if (startRed) {
             startInput.value = '08:30';
             startInput.style.background = '#FFD580';
@@ -187,8 +179,6 @@ function colorTimeInput(input) {
             endInput.style.color = '#111';
           }
 
-          // ── Set status fields directly — do NOT call changeselstat()  ───
-          // changeselstat() re-renders the row and wipes values we just set
           if (checkbox) checkbox.checked = true;
           if (txtChange) txtChange.value = '1';
 
@@ -197,7 +187,6 @@ function colorTimeInput(input) {
             statSelect.dispatchEvent(new Event('change', { bubbles: true }));
           }
 
-          // ── Re-assert colours + ChangeSetStat after HRIS may repaint ───
           setTimeout(() => {
             if (startRed) {
               startInput.style.background = '#FFD580';
@@ -211,90 +200,233 @@ function colorTimeInput(input) {
               ChangeSetStat(Number(num));
             }
           }, 300);
-
         });
-
       },
     },
     {
       label: 'Reimburse',
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#E05A2B" stroke-width="2"/><path d="M12 7v5l3 3" stroke="#E05A2B" stroke-width="2" stroke-linecap="round"/></svg>`,
+      icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+      color: '#E05A2B',
       expand: false,
       action: () => typeof scutlink === 'function' && scutlink('index.cfm?helpcategory_id=xxx&FID=HR7195&menu=1&refresh=%7Bts%20%272026%2D03%2D04%2008%3A59%3A37%27%7D'),
     },
     {
       label: 'Ajukan Cuti',
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#7C3AED" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="#7C3AED"/></svg>`,
+      icon: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>`,
+      color: '#7C3AED',
       expand: false,
       action: () => typeof scutlink === 'function' && scutlink('index.cfm?helpcategory_id=eHRMTimeAndAttendance&FID=HR0543&menu=1&refresh=%7Bts%20%272026%2D03%2D04%2008%3A56%3A44%27%7D'),
     },
   ];
 
+  // ── CSS ──────────────────────────────────────────────────────────────────
   const CSS = `
-    #_op{position:fixed;bottom:42px;right:42px;z-index:2147483647;width:280px;background:#F0EFE9;border-radius:18px;box-shadow:0 6px 28px rgba(0,0,0,.13);font-family:Consolas,monospace;overflow:hidden;user-select:none}
-    #_op ._hd{padding:14px 16px 10px;font-size:11px;font-weight:700;color:#333;letter-spacing:.01em}
-    #_op ._row{border-top:1px solid #E2E0D9;padding:0}
-    #_op ._ri{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;transition:background .12s}
-    #_op ._ri:hover{background:rgba(0,0,0,.03)}
-    #_op ._rl{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#222}
-    #_op ._plus{font-size:16px;color:#999;line-height:1;transition:transform .2s}
-    #_op ._plus.open{transform:rotate(45deg)}
-    #_op ._body{display:none;padding:0 14px 14px;flex-direction:column;gap:10px}
-    #_op ._body.open{display:flex}
-    #_op ._stats{display:flex;gap:10px}
-    #_op ._stat{flex:1;background:#fff;border-radius:12px;padding:12px 8px;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-    #_op ._sn{font-size:24px;font-weight:800;line-height:1.1}
-    #_op ._sl{font-size:10px;color:#666;margin-top:4px;font-family:Consolas,monospace}
-    #_op ._revisi{background:#F5A623;color:#fff;border:none;border-radius:50px;width:100%;padding:11px;font-size:12px;font-weight:800;font-family:Consolas,monospace;cursor:pointer;transition:background .12s,transform .1s}
-    #_op ._revisi:hover{background:#e09510;transform:scale(1.02)}
-    #_op ._revisi:active{transform:scale(.98)}
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap');
+
+    #_op-wrap {
+      position: fixed;
+      bottom: 42px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2147483647;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-family: 'DM Sans', sans-serif;
+      pointer-events: none;
+    }
+
+    /* ── Popup tray (above pill) ── */
+    #_op-tray {
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .22s ease, transform .22s ease;
+    }
+    #_op-tray.open {
+      pointer-events: auto;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    ._tray-card {
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,.28);
+      min-width: 220px;
+    }
+    ._tray-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      flex: 1;
+    }
+    ._tray-revisi {
+      background: #F5A623;
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background .12s, transform .1s;
+      pointer-events: auto;
+    }
+    ._tray-revisi:hover { background: #e09510; transform: scale(1.04); }
+    ._tray-revisi:active { transform: scale(.97); }
+
+    /* ── Main pill bar ── */
+    #_op-pill {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      background: #1a1a1a;
+      border-radius: 100px;
+      padding: 6px 8px;
+      gap: 4px;
+      box-shadow: 0 8px 36px rgba(0,0,0,.32), 0 2px 8px rgba(0,0,0,.2);
+    }
+
+    ._pill-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 16px;
+      border-radius: 100px;
+      border: none;
+      background: transparent;
+      color: #ccc;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: background .15s, color .15s, transform .1s;
+      white-space: nowrap;
+    }
+    ._pill-btn:hover {
+      background: rgba(255,255,255,.08);
+      color: #fff;
+    }
+    ._pill-btn:active { transform: scale(.96); }
+    ._pill-btn.active {
+      background: #fff;
+      color: #1a1a1a;
+    }
+    ._pill-btn .icon {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    ._pill-divider {
+      width: 1px;
+      height: 20px;
+      background: rgba(255,255,255,.1);
+      flex-shrink: 0;
+    }
   `;
 
-  function toggleRow(row) {
-    const body = row.querySelector('._body');
-    const plus = row.querySelector('._plus');
-    if (!body) return;
-    const open = body.classList.toggle('open');
-    plus.classList.toggle('open', open);
-  }
-
+  // ── Build UI ─────────────────────────────────────────────────────────────
   function build() {
     document.head.insertAdjacentHTML('beforeend', `<style>${CSS}</style>`);
-    const panel = document.createElement('div');
-    panel.id = '_op';
-    panel.innerHTML = `<div class="_hd">HRIS Tools by Ade Ivan</div>`;
 
-    ITEMS.forEach(item => {
-      const row = document.createElement('div');
-      row.className = '_row';
-      const ri = document.createElement('div');
-      ri.className = '_ri';
-      ri.innerHTML = `<span class="_rl">${item.icon}<span>${item.label}</span></span><span class="_plus">+</span>`;
+    const wrap = document.createElement('div');
+    wrap.id = '_op-wrap';
+
+    // Tray (popup above pill for expandable items)
+    const tray = document.createElement('div');
+    tray.id = '_op-tray';
+
+    // Pill bar
+    const pill = document.createElement('div');
+    pill.id = '_op-pill';
+
+    let activeTrayItem = null;
+
+    ITEMS.forEach((item, idx) => {
+      // Pill button
+      const btn = document.createElement('button');
+      btn.className = '_pill-btn';
+      btn.innerHTML = `<span class="icon" style="color:${item.color}">${item.icon}</span><span>${item.label}</span>`;
+
+      if (idx > 0) {
+        const div = document.createElement('div');
+        div.className = '_pill-divider';
+        pill.appendChild(div);
+      }
 
       if (item.expand) {
-        const body = document.createElement('div');
-        body.className = '_body';
-        body.innerHTML = `
-
-          <button class="_revisi">Revisi Semua</button>`;
-        body.querySelector('._revisi').addEventListener('click', () => {
+        // Build tray card for this item
+        const card = document.createElement('div');
+        card.className = '_tray-card';
+        card.innerHTML = `<span class="_tray-label">Revisi semua absen merah?</span>`;
+        const revBtn = document.createElement('button');
+        revBtn.className = '_tray-revisi';
+        revBtn.textContent = 'Revisi Semua';
+        revBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
           console.log('[HRIS Tool] Revisi Semua clicked —', item.label, new Date().toLocaleTimeString());
           item.revisiAction();
         });
-        ri.addEventListener('click', () => { toggleRow(row); item.action && item.action(); });
-        row.append(ri, body);
+        card.appendChild(revBtn);
+
+        btn.addEventListener('click', () => {
+          item.action && item.action();
+          const isOpen = tray.classList.contains('open') && activeTrayItem === idx;
+          // close
+          tray.classList.remove('open');
+          tray.innerHTML = '';
+          document.querySelectorAll('._pill-btn').forEach(b => b.classList.remove('active'));
+          activeTrayItem = null;
+          if (!isOpen) {
+            tray.appendChild(card);
+            tray.classList.add('open');
+            btn.classList.add('active');
+            activeTrayItem = idx;
+          }
+        });
       } else {
-        ri.addEventListener('click', item.action);
-        row.appendChild(ri);
+        btn.addEventListener('click', () => {
+          // Close tray if open
+          tray.classList.remove('open');
+          tray.innerHTML = '';
+          document.querySelectorAll('._pill-btn').forEach(b => b.classList.remove('active'));
+          activeTrayItem = null;
+          item.action && item.action();
+        });
       }
-      panel.appendChild(row);
+
+      pill.appendChild(btn);
     });
 
-    (document.getElementById('bodyHeaderID') || document.body).appendChild(panel);
+    // Close tray on outside click
+    document.addEventListener('click', (e) => {
+      if (!wrap.contains(e.target)) {
+        tray.classList.remove('open');
+        tray.innerHTML = '';
+        document.querySelectorAll('._pill-btn').forEach(b => b.classList.remove('active'));
+        activeTrayItem = null;
+      }
+    });
+
+    wrap.appendChild(tray);
+    wrap.appendChild(pill);
+    (document.getElementById('bodyHeaderID') || document.body).appendChild(wrap);
   }
 
   function tryBuild() {
-    if (document.getElementById('_op')) return;
+    if (document.getElementById('_op-wrap')) return;
     if (document.getElementById('bodyHeaderID')) { build(); return; }
     document.readyState === 'loading'
       ? document.addEventListener('DOMContentLoaded', tryBuild)
